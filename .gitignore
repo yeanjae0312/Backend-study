@@ -1,0 +1,28 @@
+# 의존성
+node_modules/
+
+# 빌드 산출물
+dist/
+build/
+.next/
+.turbo/
+.expo/
+
+# 환경 변수 (예시 파일은 올림)
+.env
+.env.*
+!.env.example
+
+# 로그와 OS 파일
+*.log
+.DS_Store
+Thumbs.db
+
+# 에디터
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+.idea/
+
+# 테스트 산출물
+coverage/
