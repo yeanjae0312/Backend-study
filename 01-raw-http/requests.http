@@ -1,0 +1,43 @@
+### REST Client 확장용. 각 요청 위의 "Send Request" 를 누른다.
+### 응답 패널에서 상태 코드와 헤더(content-type, content-length, allow)를 눈으로 확인하는 게 목적.
+
+@base = http://localhost:4000
+
+### 1. 목록 (처음엔 빈 배열, 200)
+GET {{base}}/notes
+
+### 2. 생성 (201, 응답에 id 가 생김)
+POST {{base}}/notes
+Content-Type: application/json
+
+{
+  "title": "첫 메모",
+  "content": "content-length 가 글자 수보다 큰 이유를 확인해보자"
+}
+
+### 3. 잘못된 JSON (400)
+POST {{base}}/notes
+Content-Type: application/json
+
+{ "title": "닫히지 않음"
+
+### 4. 필드 타입 틀림 (400)
+POST {{base}}/notes
+Content-Type: application/json
+
+{ "title": 123, "content": true }
+
+### 5. 허용되지 않은 메서드 (405, allow 헤더 확인)
+PUT {{base}}/notes
+
+### 6. 단건 조회 — 2번 응답의 id 를 아래에 붙여넣기 (200)
+GET {{base}}/notes/e98d8ae2-6708-4f83-9500-3a2f69aa5965
+
+### 7. 없는 id (404)
+GET {{base}}/notes/00000000-0000-0000-0000-000000000000
+
+### 8. 삭제 — 2번 응답의 id (204, 바디 없음)
+DELETE {{base}}/notes/8b21a370-e270-458a-ac69-429f79ac4dc4
+
+### 9. 없는 경로 (404)
+GET {{base}}/anything
