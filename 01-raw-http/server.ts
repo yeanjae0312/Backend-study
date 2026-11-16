@@ -51,6 +51,17 @@ function readJson(req: IncomingMessage): Promise<unknown> {
   });
 }
 
+// 쿠키는 그냥 요청 헤더 한 줄이다. "visits=3; theme=dark" 를 "; " 와 첫 "=" 로 쪼개면 끝.
+function readCookies(req: IncomingMessage): Record<string, string> {
+  const out: Record<string, string> = {};
+  for (const pair of req.headers.cookie?.split("; ") ?? []) {
+    const i = pair.indexOf("=");
+    // ponytail: 값을 그대로 둔다. decodeURIComponent 는 다른 앱의 쿠키에 깨진 % 가 있으면 throw 해서 500 이 난다.
+    if (i > 0) out[pair.slice(0, i)] = pair.slice(i + 1);
+  }
+  return out;
+}
+
 function isNoteInput(v: unknown): v is { title: string; content: string } {
   if (typeof v !== "object" || v === null) return false;
   const o = v as Record<string, unknown>;
@@ -64,6 +75,14 @@ const server = createServer(async (req, res) => {
   console.log(method, url.pathname);
 
   try {
+    // 쿠키 실험: 방문 횟수를 쿠키에 담아 돌려준다. 서버는 아무것도 기억하지 않는다. 기억하는 쪽은 브라우저.
+    if (url.pathname === "/visits" && method === "GET") {
+      const visits = (Number(readCookies(req).visits) || 0) + 1;
+      // 응답 헤더 한 줄. "; " 뒤의 속성들은 브라우저에게 주는 보관 규칙이고, 다음 요청에는 "visits=2" 만 돌아온다.
+      res.setHeader("set-cookie", `visits=${visits}; Path=/; Max-Age=3600; HttpOnly; SameSite=Lax`);
+      return send(res, 200, { visits });
+    }
+
     // 컬렉션: /notes
     if (url.pathname === "/notes") {
       if (method === "GET") return send(res, 200, notes);

@@ -27,6 +27,13 @@ try {
   assert.equal((await fetch(`${base}/notes/${note.id}`, { method: "DELETE" })).status, 204);
   assert.equal((await fetch(`${base}/notes/${note.id}`)).status, 404);
 
+  // 쿠키. fetch 는 브라우저와 달리 쿠키를 기억하지 않으므로 두 번째 요청에 직접 실어 보낸다.
+  const first = await fetch(`${base}/visits`);
+  assert.match(first.headers.get("set-cookie") ?? "", /^visits=1; /);
+  // 다른 앱의 쿠키(깨진 % 포함)가 같이 와도 무시하고 동작해야 한다. localhost 는 포트가 달라도 쿠키를 공유한다.
+  const second = await fetch(`${base}/visits`, { headers: { cookie: "other=%E0%; visits=1; junk" } });
+  assert.equal((await second.json()).visits, 2);
+
   console.log("ok");
 } finally {
   child.kill();

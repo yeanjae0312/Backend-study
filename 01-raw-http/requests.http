@@ -41,3 +41,11 @@ DELETE {{base}}/notes/8b21a370-e270-458a-ac69-429f79ac4dc4
 
 ### 9. 없는 경로 (404)
 GET {{base}}/anything
+
+### 10. 쿠키 쓰기 — 응답 헤더의 set-cookie 를 보자. 여러 번 누르면 visits 가 올라간다
+###     (REST Client 는 브라우저처럼 쿠키를 기억했다가 다음 요청에 자동으로 붙인다)
+GET {{base}}/visits
+
+### 11. 쿠키 직접 조작 — 요청 헤더로 아무 값이나 보낼 수 있다. 서버는 믿을 수밖에 없다 (12절 7번)
+GET {{base}}/visits
+Cookie: visits=999
