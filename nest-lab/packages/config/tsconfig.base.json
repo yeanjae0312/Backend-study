@@ -1,0 +1,34 @@
+{
+  // 모든 패키지가 extends 하는 공통 tsconfig. 각 패키지는 rootDir, outDir, include 만 더한다.
+  "compilerOptions": {
+    // 타입 검사 강도. 끄면 any 가 조용히 퍼진다. 처음부터 켠다.
+    "strict": true,
+
+    // 출력 JS 문법 수준. Node 24 는 ES2022 를 전부 지원하므로 다운레벨 변환이 없다.
+    "target": "ES2022",
+
+    // 모듈 시스템. Nest 는 아직 CommonJS(require) 가 기본이다. ESM 으로 바꾸면 데코레이터와
+    // 일부 패키지가 꼬이므로 Phase 2~8 은 CommonJS 로 간다. Next.js 는 자기 tsconfig 에서 덮어쓴다.
+    "module": "commonjs",
+    "moduleResolution": "node10",
+
+    // Nest 가 요구하는 둘. 데코레이터(@Controller 등)는 TS 의 실험 문법이라 켜야 하고,
+    // emitDecoratorMetadata 는 생성자 인자의 "타입" 을 JS 에 남겨서 Nest DI 가 무엇을 주입할지 알게 한다.
+    // Node 의 타입 스트리핑(node server.ts)으로는 이 메타데이터가 안 나오므로 Nest 는 tsc 빌드가 필요하다.
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+
+    // import x from "cjs-module" 를 허용. 대부분의 패키지가 이걸 전제로 타입을 배포한다.
+    "esModuleInterop": true,
+
+    // node_modules 안의 .d.ts 는 검사하지 않는다. 남의 타입 오류로 내 빌드가 막히지 않게.
+    "skipLibCheck": true,
+
+    // Windows 에서 import 경로 대소문자가 틀려도 통과되던 것을 막는다. CI(Linux) 에서 터지는 흔한 원인.
+    "forceConsistentCasingInFileNames": true,
+
+    // .d.ts 와 소스맵을 같이 낸다. 다른 패키지가 타입을 쓰고, 에러 스택이 .ts 줄 번호를 가리키게.
+    "declaration": true,
+    "sourceMap": true
+  }
+}

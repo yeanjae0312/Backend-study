@@ -1,0 +1,6 @@
+{
+  "name": "@nest-lab/config",
+  "version": "0.0.0",
+  "private": true,
+  "description": "tsconfig 같은 공유 설정. 코드가 없으니 build 도 typecheck 도 없다."
+}

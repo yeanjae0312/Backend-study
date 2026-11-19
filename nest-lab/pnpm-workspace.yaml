@@ -1,0 +1,6 @@
+# 이 두 글롭 아래의 package.json 이 각각 워크스페이스 패키지가 된다.
+# apps/*  : 실행되는 것 (api, web, mobile)
+# packages/* : 공유되는 것 (config, shared)
+packages:
+  - "apps/*"
+  - "packages/*"

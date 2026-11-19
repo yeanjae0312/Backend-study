@@ -1,0 +1,9 @@
+{
+  // 공통 설정은 config 패키지에서. workspace:* 로 연결돼 있어 node_modules/@nest-lab/config 로 풀린다.
+  "extends": "@nest-lab/config/tsconfig.base.json",
+  "compilerOptions": {
+    "rootDir": "src",
+    "outDir": "dist"
+  },
+  "include": ["src"]
+}
