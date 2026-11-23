@@ -4,19 +4,23 @@
     // 타입 검사 강도. 끄면 any 가 조용히 퍼진다. 처음부터 켠다.
     "strict": true,
 
-    // 출력 JS 문법 수준. Node 24 는 ES2022 를 전부 지원하므로 다운레벨 변환이 없다.
-    "target": "ES2022",
+    // 출력 JS 문법 수준. Node 24 는 ES2023 을 전부 지원하므로 다운레벨 변환이 없다.
+    "target": "ES2023",
 
-    // 모듈 시스템. Nest 는 아직 CommonJS(require) 가 기본이다. ESM 으로 바꾸면 데코레이터와
-    // 일부 패키지가 꼬이므로 Phase 2~8 은 CommonJS 로 간다. Next.js 는 자기 tsconfig 에서 덮어쓴다.
-    "module": "commonjs",
-    "moduleResolution": "node10",
+    // 모듈 시스템. Nest 12 부터 패키지가 ESM 전용이라 프로젝트도 ESM 이다 (package.json 의 "type": "module").
+    // nodenext 는 "Node 가 하는 그대로" 해석한다: 상대 import 는 .js 확장자를 붙이고, package.json 의 exports 를 읽는다.
+    // (TS 6 에서 옛 node10 해석은 deprecated 다.)
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
 
     // Nest 가 요구하는 둘. 데코레이터(@Controller 등)는 TS 의 실험 문법이라 켜야 하고,
     // emitDecoratorMetadata 는 생성자 인자의 "타입" 을 JS 에 남겨서 Nest DI 가 무엇을 주입할지 알게 한다.
     // Node 의 타입 스트리핑(node server.ts)으로는 이 메타데이터가 안 나오므로 Nest 는 tsc 빌드가 필요하다.
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
+
+    // 파일 하나만 보고도 변환할 수 있게 제한한다. vitest(esbuild) 가 파일 단위로 변환하므로 필요.
+    "isolatedModules": true,
 
     // import x from "cjs-module" 를 허용. 대부분의 패키지가 이걸 전제로 타입을 배포한다.
     "esModuleInterop": true,

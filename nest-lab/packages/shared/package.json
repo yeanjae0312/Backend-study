@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "description": "api, web, mobile 이 같이 쓰는 타입. 지금은 Note 하나.",
+  "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": {

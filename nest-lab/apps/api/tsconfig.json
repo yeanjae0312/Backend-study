@@ -1,0 +1,16 @@
+{
+  // 공통은 config 패키지. 아래는 Nest CLI 가 만든 것 중 api 에만 해당하는 것.
+  "extends": "@nest-lab/config/tsconfig.base.json",
+  "compilerOptions": {
+    "rootDir": ".",
+    "outDir": "./dist",
+    // 주석은 dist 에 안 남긴다. 소스가 진실이므로.
+    "removeComments": true,
+    // 바뀐 파일만 다시 컴파일. nest start --watch 가 빨라진다.
+    "incremental": true,
+    // Nest 는 프로퍼티를 생성자에서 직접 안 채우고 DI 가 채우는 경우가 있어서 이 검사만 끈다.
+    "strictPropertyInitialization": false,
+    // 테스트 파일에서 describe, it, expect 를 import 없이 쓰기 위한 전역 타입.
+    "types": ["vitest/globals", "node"]
+  }
+}
