@@ -1,0 +1,16 @@
+{
+  "name": "raw-http",
+  "private": true,
+  "type": "module",
+  "description": "server.ts 는 의존성 0. express.ts 만 express 를 쓴다 (Phase 2-2 비교용).",
+  "scripts": {
+    "check": "node check.ts && node check.ts express.ts"
+  },
+  "dependencies": {
+    "express": "^5.1.0"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.0",
+    "@types/node": "^24.0.0"
+  }
+}
