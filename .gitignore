@@ -7,6 +7,7 @@ build/
 .next/
 .turbo/
 .expo/
+*.tsbuildinfo
 
 # 환경 변수 (예시 파일은 올림)
 .env
